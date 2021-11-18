@@ -74,12 +74,14 @@ public class BallScript : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        //On Collision with the Death Wall
         if (collision.gameObject.CompareTag("Death Wall"))
         {
             ResetBall();
         }
     }
 
+    //Resets the Ball, as though it had not been launched
     private void ResetBall()
     {
         //Freeze Constraints

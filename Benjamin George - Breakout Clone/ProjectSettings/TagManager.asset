@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Death Wall
+  - Brick
+  - Game Manager
   layers:
   - Default
   - TransparentFX
