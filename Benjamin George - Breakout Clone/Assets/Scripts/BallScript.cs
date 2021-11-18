@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class BallScript : MonoBehaviour
 {
-    [SerializeField] private float LaunchForce = 1000;
+    [SerializeField] private float LaunchForce = 1000;  //Force to launch the Ball with
+
+    private Transform Paddle;  //Store the Paddle Position
+    private Vector3 InitialPos = Vector3.zero;  //Store the location of the ball in relation to the paddle
 
     private Rigidbody2D rb; //Store the rigidbody
 
@@ -16,6 +19,9 @@ public class BallScript : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
+        //Set the Initial Position
+        InitialPos = transform.localPosition;
+
         //Safely set the rigidbody
         if (GetComponent<Rigidbody2D>() != null)
         {
@@ -24,6 +30,16 @@ public class BallScript : MonoBehaviour
         else
         {
             Debug.LogError("Ball Script: Rigidbody not found");
+        }
+
+        //Safely set the Paddle
+        if (transform.parent != null)
+        {
+            Paddle = transform.parent;
+        }
+        else
+        {
+            Debug.LogError("Ball Script: Paddle not found");
         }
     }
 
@@ -54,5 +70,28 @@ public class BallScript : MonoBehaviour
         LaunchAngle_v = new Vector2(LaunchAngle_f, 1.0f);
 
         rb.AddForce(LaunchAngle_v * LaunchForce);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Death Wall"))
+        {
+            ResetBall();
+        }
+    }
+
+    private void ResetBall()
+    {
+        //Freeze Constraints
+        rb.constraints = RigidbodyConstraints2D.FreezeAll;
+
+        //Parent the Ball
+        transform.SetParent(Paddle);
+
+        //Reset the Location
+        transform.localPosition = InitialPos;
+
+        //Enable a relaunch
+        isLaunched = false;
     }
 }
