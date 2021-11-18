@@ -11,7 +11,7 @@ public class PaddleScript : MonoBehaviour
     private float RightSide, LeftSide; //To Hold the Left Side and Right Side of the Paddle
     private Vector3 ViewportSpace = Vector3.zero;   //Used instead of creating a Vector3 Multiple Times
 
-    //The frame when a script is enabled just before any of the Update methods are called the first time.
+    // Start is called before the first frame update
     private void Start()
     {
         //Set the Speed in a usable Type
